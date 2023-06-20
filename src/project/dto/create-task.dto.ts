@@ -1,4 +1,4 @@
-export class CreateProjectDto {
+export class CreateTaskDto {
   name: string;
   description: string;
 }
