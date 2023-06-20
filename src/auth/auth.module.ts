@@ -10,7 +10,7 @@ console.log(process.env.JWT_SECRET);
   imports: [
     ConfigModule.forRoot({ envFilePath: '.development.env' }),
     UserModule,
-    JwtModule.register({ secret: process.env.JWT_SECRET }),
+    JwtModule.register({ global: true, secret: process.env.JWT_SECRET }),
   ],
   providers: [AuthService],
   controllers: [AuthController],
