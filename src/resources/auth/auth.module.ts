@@ -8,12 +8,15 @@ import { AuthGuard } from './auth.guard';
 
 export const IS_PUBLIC_KEY = 'isPublic';
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
-console.log(process.env.JWT_SECRET);
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: '.development.env' }),
     UserModule,
-    JwtModule.register({ global: true, secret: process.env.JWT_SECRET }),
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1d' },
+    }),
   ],
   providers: [
     AuthService,
