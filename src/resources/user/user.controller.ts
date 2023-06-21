@@ -16,10 +16,6 @@ export class userController {
 
   @Post()
   async create(@Body(new ValidationPipe()) createUserDto: CreateUsertDto) {
-    try {
-      await this.userService.create(createUserDto);
-    } catch (error) {
-      throw new HttpException('BAD_REQUEST', HttpStatus.BAD_REQUEST);
-    }
+    await this.userService.create(createUserDto);
   }
 }
