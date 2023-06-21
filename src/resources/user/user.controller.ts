@@ -1,4 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUsertDto } from './dto/create-user.dto';
 import { ValidationPipe } from '../../pipes/validation.pipe';
@@ -10,6 +16,10 @@ export class userController {
 
   @Post()
   async create(@Body(new ValidationPipe()) createUserDto: CreateUsertDto) {
-    await this.userService.create(createUserDto);
+    try {
+      await this.userService.create(createUserDto);
+    } catch (error) {
+      throw new HttpException('BAD_REQUEST', HttpStatus.BAD_REQUEST);
+    }
   }
 }
