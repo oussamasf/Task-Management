@@ -11,6 +11,9 @@ export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async create(createUserDto: CreateUsertDto): Promise<User> {
+    const user = await this.userModel.findOne({ email: createUserDto.email });
+    if (user)
+      throw new HttpException('NOT_VALID_EMAIL', HttpStatus.BAD_REQUEST);
     const createdUser = this.userModel.create(createUserDto);
     return createdUser;
   }
