@@ -6,44 +6,68 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { Project } from '../../schemas/project.schema';
+import { Task } from '../../schemas/task.schema';
 
 @Injectable()
 export class ProjectService {
-  constructor(@InjectModel(Project.name) private userModel: Model<Project>) {}
+  constructor(
+    @InjectModel(Project.name) private projectModel: Model<Project>,
+    @InjectModel(Task.name) private taskModel: Model<Task>,
+  ) {}
 
   async create(createProjectDto: CreateProjectDto) {
-    const createdUser = await this.userModel.create(createProjectDto);
-    return `This action adds a new project: ${createdUser}`;
+    const createdProject = await this.projectModel.create(createProjectDto);
+    return createdProject;
   }
 
-  createTask(createProjectDto: CreateTaskDto) {
-    return `This action adds a task to project: ${createProjectDto.name}`;
+  async createTask(createTaskDto: CreateTaskDto) {
+    const createdTask = await this.taskModel.create(createTaskDto);
+
+    return createdTask;
   }
 
-  findAll() {
-    return `This action returns all project`;
-  }
-  findAllTask(id: number) {
-    return `This action returns all tasks within #${id} project`;
+  async findAll() {
+    const Projects = await this.projectModel.find();
+
+    return Projects;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} project`;
+  async findAllTask(id: string) {
+    const Task = await this.taskModel.find({ projectId: id });
+
+    return Task;
   }
 
-  findTask(id: number) {
-    return `This action returns a #${id} task`;
+  async findOne(id: string) {
+    const project = await this.projectModel.findOne({ _id: id });
+
+    return project;
   }
 
-  update(id: number, updateProjectDto: UpdateProjectDto) {
-    return `This action updates a #${id} project #${updateProjectDto} `;
+  async findTask(id: string, taskId: string) {
+    const Tasks = await this.taskModel.findOne({ projectId: id, _id: taskId });
+
+    return Tasks;
   }
 
-  updateTask(id: number, updateTaskDto: UpdateTaskDto) {
-    return `This action updates a #${id} project task #${updateTaskDto} `;
+  async update(id: string, updateProjectDto: UpdateProjectDto) {
+    const updatedProject = await this.projectModel.findByIdAndUpdate(
+      { _id: id },
+      updateProjectDto,
+    );
+
+    return updatedProject;
   }
 
-  remove(id: number) {
+  async updateTask(id: string, taskId: string, updateTaskDto: UpdateTaskDto) {
+    const updatedTask = await this.taskModel.findByIdAndUpdate(
+      { projectId: id, _id: taskId },
+      updateTaskDto,
+    );
+    return updatedTask;
+  }
+
+  async remove(id: number) {
     return `This action removes a #${id} project`;
   }
 }
