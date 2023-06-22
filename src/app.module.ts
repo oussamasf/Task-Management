@@ -9,7 +9,7 @@ import { AppService } from './app.service';
 import { ProjectModule } from './resources/project/project.module';
 import { AuthModule } from './resources/auth/auth.module';
 import { UserModule } from './resources/user/user.module';
-import { AllExceptionsFilter } from './filters/error-logging.filter';
+import { AllExceptionsFilter } from './utils/filters/error-logging.filter';
 
 const { MONGO_URI } = process.env;
 @Module({

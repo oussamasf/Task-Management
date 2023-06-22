@@ -8,7 +8,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Public } from '../../decorator/auth.decorator';
+import { Public } from '../../utils/decorator/auth.decorator';
 
 @Controller('api')
 export class AuthController {

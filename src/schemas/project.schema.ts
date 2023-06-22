@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
-
-export type ProjectDocument = HydratedDocument<Project>;
+import * as mongoose from 'mongoose';
+import { User } from './user.schema';
+export type ProjectDocument = mongoose.HydratedDocument<Project>;
 
 @Schema({
   timestamps: {
@@ -15,6 +15,18 @@ export class Project {
 
   @Prop()
   description: string;
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  })
+  createdBy: User;
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  })
+  updatedBy: User;
 }
 
 export const ProjectSchema = SchemaFactory.createForClass(Project);

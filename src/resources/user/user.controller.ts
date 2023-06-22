@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUsertDto } from './dto/create-user.dto';
-import { ValidationPipe } from '../../pipes/validation.pipe';
+import { ValidationPipe } from '../../utils/pipes/validation.pipe';
 
 @Controller('api/user')
 export class userController {

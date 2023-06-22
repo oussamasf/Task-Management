@@ -15,13 +15,23 @@ export class ProjectService {
     @InjectModel(Task.name) private taskModel: Model<Task>,
   ) {}
 
-  async create(createProjectDto: CreateProjectDto) {
-    const createdProject = await this.projectModel.create(createProjectDto);
+  async create(userId: string, createProjectDto: CreateProjectDto) {
+    const createdProject = await this.projectModel.create({
+      createdBy: userId,
+      ...createProjectDto,
+    });
     return createdProject;
   }
 
-  async createTask(createTaskDto: CreateTaskDto) {
-    const createdTask = await this.taskModel.create(createTaskDto);
+  async createTask(
+    { projectId, userId }: { projectId: string; userId: string },
+    createTaskDto: CreateTaskDto,
+  ) {
+    const createdTask = await this.taskModel.create({
+      projectId,
+      createdBy: userId,
+      ...createTaskDto,
+    });
 
     return createdTask;
   }
@@ -50,19 +60,35 @@ export class ProjectService {
     return Tasks;
   }
 
-  async update(id: string, updateProjectDto: UpdateProjectDto) {
+  async update(
+    { projectId, userId }: { projectId: string; userId: string },
+    updateProjectDto: UpdateProjectDto,
+  ) {
     const updatedProject = await this.projectModel.findByIdAndUpdate(
-      { _id: id },
-      updateProjectDto,
+      { _id: projectId },
+      {
+        updatedBy: userId,
+        ...updateProjectDto,
+      },
     );
 
     return updatedProject;
   }
 
-  async updateTask(id: string, taskId: string, updateTaskDto: UpdateTaskDto) {
+  async updateTask(
+    {
+      projectId,
+      taskId,
+      userId,
+    }: { projectId: string; taskId: string; userId: string },
+    updateTaskDto: UpdateTaskDto,
+  ) {
     const updatedTask = await this.taskModel.findByIdAndUpdate(
-      { projectId: id, _id: taskId },
-      updateTaskDto,
+      { projectId, _id: taskId },
+      {
+        updatedBy: userId,
+        ...updateTaskDto,
+      },
     );
     return updatedTask;
   }

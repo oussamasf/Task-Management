@@ -7,7 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
-import { IS_PUBLIC_KEY } from '../../decorator/auth.decorator';
+import { IS_PUBLIC_KEY } from '../../utils/decorator/auth.decorator';
 const { JWT_SECRET } = process.env;
 
 @Injectable()
