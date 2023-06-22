@@ -22,6 +22,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     this.logger.error(`An exception occurred: ${exception.stack}`);
     const { message = '' } = exception;
+    const details = exception?.response?.errors;
     const httpStatus =
       exception instanceof HttpException
         ? exception.getStatus()
@@ -33,6 +34,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
             statusCode: httpStatus,
             timestamp: new Date().toISOString(),
             path: httpAdapter.getRequestUrl(ctx.getRequest()),
+            details,
           }
         : 'INTERNAL_SERVER_ERROR';
 

@@ -1,4 +1,9 @@
+import { IsString, IsOptional } from 'class-validator';
+
 export class CreateProjectDto {
-  name: string;
+  @IsString()
+  title: string;
+  @IsString()
+  @IsOptional()
   description: string;
 }
