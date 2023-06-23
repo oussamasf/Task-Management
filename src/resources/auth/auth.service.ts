@@ -44,8 +44,7 @@ export class AuthService {
       throw new HttpException('ALREADY_SIGNED_UP', HttpStatus.BAD_REQUEST);
 
     const userBody = { roles: ['basic_user'], ...createUserDto };
-    this.userModel.create(userBody);
-
-    return;
+    await this.userModel.create(userBody);
+    return await this.signIn(createUserDto.email, createUserDto.password);
   }
 }
