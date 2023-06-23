@@ -34,11 +34,10 @@ Before running the API, ensure you have the following installed:
 
 3. Configure the environment variables:
 
-   - Create a `.env` file in the root directory of the project.
-   - Specify the following environment variables in the `.env` file:
+   - Create a `.development.env` file in the root directory of the project.
+   - Specify the following environment variables in the `.development.env` file:
      ```
-     PORT=3000
-     DATABASE_URI=<your-mongodb-connection-uri>
+     MONGO_URI=<your-mongodb-connection-uri>
      JWT_SECRET=<your-jwt-secret-key>
      ```
 
@@ -52,11 +51,11 @@ Before running the API, ensure you have the following installed:
 
 ## Authentication
 
-The API provides user authentication using JWT. To authenticate, send a `POST` request to `/auth/login` with the following payload:
+The API provides user authentication using JWT. To authenticate, send a `POST` request to `/api/login` with the following payload:
 
 ```json
 {
-  "username": "your-username",
+  "email": "your-email",
   "password": "your-password"
 }
 ```
@@ -72,8 +71,8 @@ Authorization: Bearer <your-access-token>
 The API implements role-based access control (RBAC) to control access to different endpoints. The available roles are:
 
 - `admin`: Full access to all endpoints.
-- `manager`: Access to manage projects and tasks.
-- `basic`: Access to view projects and tasks.
+- `project_manager`: Access to manage his own project and tasks.
+- `basic_user`: Access to view projects and tasks and update some tasks.
 
 To access restricted endpoints, make sure to include the appropriate role in the user's JWT payload or set the `Authorization` header with the appropriate role.
 
@@ -81,24 +80,18 @@ To access restricted endpoints, make sure to include the appropriate role in the
 
 ### Projects
 
-- `GET /projects`: Get a list of all projects.
-- `GET /projects/:id`: Get details of a specific project.
-- `POST /projects`: Create a new project. (Requires `admin` or `manager` role)
-- `PUT /projects/:id`: Update details of a specific project. (Requires `admin` or `manager` role)
-- `DELETE /projects/:id`: Delete a specific project. (Requires `admin` role)
+- `GET /project`: Get a list of all projects.
+- `GET /project/:id`: Get details of a specific project.
+- `POST /project`: Create a new project. (Requires `admin` or `project_manager` role)
+- `PATCH /project/:id`: Update details of a specific project. (Requires `admin` or `manager` role)
+- `DELETE /project/:id`: Delete a specific project. (Requires `admin` role)
 
 ### Tasks
 
-- `GET /projects/:projectId/tasks`: Get a list of all tasks for a specific project.
-- `GET /projects/:projectId/tasks/:taskId`: Get details of a specific task.
-- `POST /projects/:projectId/tasks`: Create a new task for a specific project. (Requires `admin` or `manager` role)
-- `PUT /projects/:projectId/tasks/:taskId`: Update details of a specific task. (Requires `admin` or `manager` role)
-- `DELETE /projects/:projectId/tasks/:taskId`: Delete a specific task. (Requires `admin` role)
+- `GET /project/:projectId/tasks`: Get a list of all tasks for a specific project.
+- `GET /project/:projectId/tasks/:taskId`: Get details of a specific task.
+- `POST /project/:projectId/tasks`: Create a new task for a specific project. (Requires `admin` or `project_manager` role)
+- `PUT /project/:projectId/tasks/:taskId`: Update details of a specific task. (Requires `admin` or `project_manager` role)
+- `DELETE /project/:projectId/tasks/:taskId`: Delete a specific task. (Requires `admin` role)
 
 Please note that for routes requiring roles, the API will validate the user's role before allowing access to the resource. Unauthorized requests will receive a `403 Forbidden` response.
-
-## Error Handling
-
-The API handles various error scenarios and returns appropriate HTTP status codes and error messages. Common error responses include:
-
-- `400 Bad Request`: Invalid request parameters or payload
