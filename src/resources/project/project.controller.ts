@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
@@ -14,12 +15,16 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import ExtendedRequest from '../../utils/interfaces/extended-request.interface';
+import { RolesGuard } from '../../utils/config/roles/roles.guard';
+import { Roles } from '../../utils/decorator/roles.decorator';
 
+@UseGuards(RolesGuard)
 @Controller('api/project')
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Post()
+  @Roles('changeme')
   create(
     @Body() createProjectDto: CreateProjectDto,
     @Req() req: ExtendedRequest,

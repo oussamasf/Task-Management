@@ -15,13 +15,14 @@ export class AuthService {
       _id,
       password = '',
       username: userName,
+      roles,
     } = await this.usersService.findUser(email);
 
     const compare = await bcrypt.compare(reqPassword, password);
     if (!compare) {
       throw new UnauthorizedException('WRONG_CREDENTIALS');
     }
-    const payload = { sub: _id, username: userName };
+    const payload = { sub: _id, username: userName, roles };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
