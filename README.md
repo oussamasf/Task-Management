@@ -1,73 +1,104 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Nest API - Project and Task Management
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This is a sample RESTful API built with NestJS, providing authentication, authorization, and CRUD operations for managing projects and tasks. The API supports three user roles: admin, manager, and basic user.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Features
 
-## Description
+- User authentication using JWT (JSON Web Tokens)
+- Role-based access control (RBAC) for authorization
+- CRUD operations for managing projects
+- CRUD operations for managing tasks within projects
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Prerequisites
 
-## Installation
+Before running the API, ensure you have the following installed:
 
-```bash
-$ npm install
+- Node.js (v16 or higher)
+- npm (v6 or higher)
+- MongoDB (running locally or accessible via connection URI)
+
+## Getting Started
+
+1. Clone the repository:
+
+   ```bash
+   git clone <repository-url>
+   cd nest-api-project-task
+   ```
+
+2. Install the dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Configure the environment variables:
+
+   - Create a `.env` file in the root directory of the project.
+   - Specify the following environment variables in the `.env` file:
+     ```
+     PORT=3000
+     DATABASE_URI=<your-mongodb-connection-uri>
+     JWT_SECRET=<your-jwt-secret-key>
+     ```
+
+4. Start the API:
+
+   ```bash
+   npm run start
+   ```
+
+   The API will be running on `http://localhost:3000`.
+
+## Authentication
+
+The API provides user authentication using JWT. To authenticate, send a `POST` request to `/auth/login` with the following payload:
+
+```json
+{
+  "username": "your-username",
+  "password": "your-password"
+}
 ```
 
-## Running the app
+If the credentials are valid, the API will respond with a JWT access token, which you should include in the `Authorization` header for subsequent requests.
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```plaintext
+Authorization: Bearer <your-access-token>
 ```
 
-## Test
+## Authorization
 
-```bash
-# unit tests
-$ npm run test
+The API implements role-based access control (RBAC) to control access to different endpoints. The available roles are:
 
-# e2e tests
-$ npm run test:e2e
+- `admin`: Full access to all endpoints.
+- `manager`: Access to manage projects and tasks.
+- `basic`: Access to view projects and tasks.
 
-# test coverage
-$ npm run test:cov
-```
+To access restricted endpoints, make sure to include the appropriate role in the user's JWT payload or set the `Authorization` header with the appropriate role.
 
-## Support
+## Endpoints
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Projects
 
-## Stay in touch
+- `GET /projects`: Get a list of all projects.
+- `GET /projects/:id`: Get details of a specific project.
+- `POST /projects`: Create a new project. (Requires `admin` or `manager` role)
+- `PUT /projects/:id`: Update details of a specific project. (Requires `admin` or `manager` role)
+- `DELETE /projects/:id`: Delete a specific project. (Requires `admin` role)
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Tasks
 
-## License
+- `GET /projects/:projectId/tasks`: Get a list of all tasks for a specific project.
+- `GET /projects/:projectId/tasks/:taskId`: Get details of a specific task.
+- `POST /projects/:projectId/tasks`: Create a new task for a specific project. (Requires `admin` or `manager` role)
+- `PUT /projects/:projectId/tasks/:taskId`: Update details of a specific task. (Requires `admin` or `manager` role)
+- `DELETE /projects/:projectId/tasks/:taskId`: Delete a specific task. (Requires `admin` role)
 
-Nest is [MIT licensed](LICENSE).
+Please note that for routes requiring roles, the API will validate the user's role before allowing access to the resource. Unauthorized requests will receive a `403 Forbidden` response.
+
+## Error Handling
+
+The API handles various error scenarios and returns appropriate HTTP status codes and error messages. Common error responses include:
+
+- `400 Bad Request`: Invalid request parameters or payload
