@@ -9,6 +9,8 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from '../../utils/decorator/auth.decorator';
+import { CreateUserDto } from './dto/create-user.dto';
+import { ValidationPipe } from '../../utils/pipes/validation.pipe';
 
 @Controller('api')
 export class AuthController {
@@ -19,6 +21,13 @@ export class AuthController {
   @Post('login')
   signIn(@Body() signInDto: Record<string, any>) {
     return this.authService.signIn(signInDto.email, signInDto.password);
+  }
+
+  @Public()
+  @HttpCode(HttpStatus.CREATED)
+  @Post('signup')
+  async signUp(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
+    await this.authService.signUp(createUserDto);
   }
 
   @Get('profile')
