@@ -1,4 +1,4 @@
-import { Module, SetMetadata } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
@@ -9,8 +9,6 @@ import { UserModule } from '../user/user.module';
 import { AuthGuard } from './auth.guard';
 import { User, UserSchema } from 'src/schemas/user.schema';
 
-export const IS_PUBLIC_KEY = 'isPublic';
-export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: '.development.env' }),
