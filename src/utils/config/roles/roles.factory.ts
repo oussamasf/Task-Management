@@ -30,10 +30,8 @@ export class RolesFactory {
 
     if (user.roles.includes('admin')) {
       can(Action.Manage, 'all'); // read-write access to everything
-    } else {
-      can(Action.Read, 'all'); // read-only access to everything
-      can(Action.Create, Project); // read-only access to everything
     }
+    if (user.roles.includes('manager')) can(Action.Create, Project);
 
     can(Action.Update, Project, { createdBy: user._id });
     cannot(Action.Delete, Project, { isProtected: true });
