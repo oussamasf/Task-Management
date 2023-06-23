@@ -16,6 +16,9 @@ export class Project {
   @Prop()
   description: string;
 
+  @Prop()
+  isProtected: boolean;
+
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

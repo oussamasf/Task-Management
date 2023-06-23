@@ -10,6 +10,7 @@ import { ProjectModule } from './resources/project/project.module';
 import { AuthModule } from './resources/auth/auth.module';
 import { UserModule } from './resources/user/user.module';
 import { AllExceptionsFilter } from './utils/filters/error-logging.filter';
+import { RolesModule } from './utils/config/roles/roles.module';
 
 const { MONGO_URI } = process.env;
 @Module({
@@ -19,6 +20,7 @@ const { MONGO_URI } = process.env;
     UserModule,
     ConfigModule.forRoot({ envFilePath: '.development.env', isGlobal: true }),
     MongooseModule.forRoot(MONGO_URI),
+    RolesModule,
   ],
   controllers: [AppController],
   providers: [
