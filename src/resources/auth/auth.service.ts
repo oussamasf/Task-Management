@@ -7,10 +7,11 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import * as bcrypt from 'bcrypt';
 
 import { UserService } from '../user/user.service';
-import * as bcrypt from 'bcrypt';
 import { User } from 'src/schemas/user.schema';
+import { UserRole } from 'src/utils/config/roles';
 
 @Injectable()
 export class AuthService {
@@ -43,7 +44,7 @@ export class AuthService {
     if (user)
       throw new HttpException('ALREADY_SIGNED_UP', HttpStatus.BAD_REQUEST);
 
-    const userBody = { roles: ['basic_user'], ...createUserDto };
+    const userBody = { roles: [UserRole.BasicUser], ...createUserDto };
     await this.userModel.create(userBody);
     return await this.signIn(createUserDto.email, createUserDto.password);
   }
