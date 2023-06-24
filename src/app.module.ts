@@ -11,7 +11,7 @@ import { AuthModule } from './resources/auth/auth.module';
 import { UserModule } from './resources/user/user.module';
 import { AllExceptionsFilter } from './utils/filters/error-logging.filter';
 import { RolesModule } from './utils/config/roles/roles.module';
-import { ValidationPipe } from 'src/utils/pipes/validation.pipe';
+import { ValidationPipe } from './utils/pipes/validation.pipe';
 
 const { MONGO_URI } = process.env;
 @Module({

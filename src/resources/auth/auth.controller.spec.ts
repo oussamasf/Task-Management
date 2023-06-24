@@ -1,18 +1,33 @@
+import * as request from 'supertest';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthController } from './auth.controller';
+import { AppModule } from '../../app.module';
+import { INestApplication } from '@nestjs/common';
 
-describe('AuthController', () => {
-  let controller: AuthController;
+describe('AppController (e2e)', () => {
+  let app: INestApplication;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [AuthController],
+  beforeAll(async () => {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
     }).compile();
 
-    controller = module.get<AuthController>(AuthController);
+    app = moduleFixture.createNestApplication();
+    await app.init();
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  afterAll(async () => {
+    await app.close();
   });
+
+  it('api/ (POST)', async () => {
+    const response = await request(app.getHttpServer())
+      .post('/api/login')
+      .send({ email: 'fisrtadmin@fisrtadmin.com', password: '1234ddddd5' })
+      .expect(200);
+
+    // Assert the response body or other expectations
+    expect(response).toBe('Welcome to task manager API');
+  });
+
+  // Add more test cases as needed for other endpoints
 });
