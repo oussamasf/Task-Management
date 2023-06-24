@@ -14,7 +14,7 @@ import { RolesModule } from './utils/config/roles/roles.module';
 import { ValidationPipe } from './utils/pipes/validation.pipe';
 
 const { MONGO_URI } = process.env;
-@Module({
+export const config = (MONGO_URI) => ({
   imports: [
     ProjectModule,
     AuthModule,
@@ -35,7 +35,8 @@ const { MONGO_URI } = process.env;
       useClass: ValidationPipe,
     },
   ],
-})
+});
+@Module(config(MONGO_URI))
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(MorganMiddleware).forRoutes('*');
