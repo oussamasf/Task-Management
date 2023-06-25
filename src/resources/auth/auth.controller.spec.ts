@@ -18,7 +18,7 @@ describe('AppController (e2e)', () => {
     app = moduleFixture.createNestApplication();
     await app.init();
     userModel = moduleFixture.get<UserDocument>(getModelToken(User.name));
-    // populate the DB with 1 cat using fakingoose
+    // populate the DB with 1 user
     const mockUser = {
       _id: '6495cbe61279f54d38201fd4',
       username: 'fffff',

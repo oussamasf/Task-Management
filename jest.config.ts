@@ -1,7 +1,7 @@
 module.exports = {
   testEnvironment: 'node',
 
-  testRegex: ['src/resources/auth/auth.controller.spec.ts'],
+  testRegex: ['test/app.e2e-spec.ts'],
   testPathIgnorePatterns: ['/node_modules/'],
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
