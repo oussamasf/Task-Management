@@ -1,5 +1,5 @@
 import { IsString, IsEmail, MinLength, IsEnum } from 'class-validator';
-import { UserRole } from 'src/utils/config/roles';
+import { UserRole } from '../../../utils/config/roles';
 
 export class CreateUsertDto {
   @IsString()

@@ -1,8 +1,11 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { RolesFactory, AppAbility } from 'src/utils/config/roles/roles.factory';
-import { CHECK_POLICIES_KEY } from 'src/utils/decorator/roles.decorator';
-import { PolicyHandler } from 'src/utils/interfaces/roles.interface';
+import {
+  RolesFactory,
+  AppAbility,
+} from '../../../utils/config/roles/roles.factory';
+import { CHECK_POLICIES_KEY } from '../../../utils/decorator/roles.decorator';
+import { PolicyHandler } from '../../../utils/interfaces/roles.interface';
 
 @Injectable()
 export class PoliciesGuard implements CanActivate {

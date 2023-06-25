@@ -7,9 +7,9 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { UserModule } from '../user/user.module';
 import { AuthGuard } from './auth.guard';
-import { User, UserSchema } from 'src/schemas/user.schema';
+import { User, UserSchema } from '../../schemas/user.schema';
 
-@Module({
+export const config = {
   imports: [
     ConfigModule.forRoot({ envFilePath: '.development.env' }),
     UserModule,
@@ -28,5 +28,6 @@ import { User, UserSchema } from 'src/schemas/user.schema';
     },
   ],
   controllers: [AuthController],
-})
+};
+@Module(config)
 export class AuthModule {}
