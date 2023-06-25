@@ -3,9 +3,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const { NODE_ENV } = process.env;
-
+const rootDirectory = path.resolve(process.cwd());
 const filePath = NODE_ENV === 'test' ? '.test.env' : '.development.env';
-const envFile = path.resolve(__dirname, '../../../../../', filePath);
+const envFile = path.resolve(rootDirectory, filePath);
 const envConfig = dotenv.parse(fs.readFileSync(envFile));
 
 console.log(envConfig.MONGO_URI);
