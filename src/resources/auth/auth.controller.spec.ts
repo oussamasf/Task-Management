@@ -2,7 +2,6 @@ import * as request from 'supertest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 
-import { config } from '../../app.module';
 import { INestApplication } from '@nestjs/common';
 import { User, UserDocument } from '../../schemas/user.schema';
 
@@ -12,7 +11,7 @@ describe('AppController (e2e)', () => {
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule(
-      config('mongodb://localhost:27014/nestauth_test'),
+      {},
     ).compile();
 
     app = moduleFixture.createNestApplication();

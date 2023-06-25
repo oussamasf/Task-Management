@@ -2,18 +2,19 @@ import * as request from 'supertest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 
-import { config } from '../src/app.module';
 import { INestApplication } from '@nestjs/common';
 import { User, UserDocument } from '../src/schemas/user.schema';
+import { AppModule } from '../src/app.module';
+import { config } from '../src/utils/config/app';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
   let userModel;
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule(
-      config('mongodb://localhost:27014/nestauth_test'),
-    ).compile();
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule.forRoot(config)],
+    }).compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();
@@ -26,7 +27,7 @@ describe('AppController (e2e)', () => {
       email: 'fisrtadmin@fisrtadmin.com',
       roles: ['admin'],
       createdAt: '2023-06-23T16:44:22.575Z',
-      updatedAt: '2023-06-23T16:44:22.575Z',
+      updatedAt: '2023-06-27T16:44:22.575Z',
 
       __v: 0,
     };
