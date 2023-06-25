@@ -10,8 +10,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 
 import { UserService } from '../user/user.service';
-import { User } from 'src/schemas/user.schema';
-import { UserRole } from 'src/utils/config/roles';
+import { User } from '../../schemas/user.schema';
+import { UserRole } from '../../utils/config/roles';
 
 @Injectable()
 export class AuthService {

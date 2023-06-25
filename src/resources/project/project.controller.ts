@@ -14,11 +14,11 @@ import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import ExtendedRequest from 'src/utils/interfaces/extended-request.interface';
-import { PoliciesGuard } from 'src/utils/config/roles/roles.guard';
-import { CheckPolicies } from 'src/utils/decorator/roles.decorator';
-import { AppAbility, Action } from 'src/utils/config/roles/roles.factory';
-import { Project } from 'src/schemas/project.schema';
+import ExtendedRequest from '../../utils/interfaces/extended-request.interface';
+import { PoliciesGuard } from '../../utils/config/roles/roles.guard';
+import { CheckPolicies } from '../../utils/decorator/roles.decorator';
+import { AppAbility, Action } from '../../utils/config/roles/roles.factory';
+import { Project } from '../../schemas/project.schema';
 
 @UseGuards(PoliciesGuard)
 @Controller('api/project')
