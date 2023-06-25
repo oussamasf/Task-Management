@@ -44,7 +44,7 @@ jobs:
         run: echo "$ENV_TEST_FILE" > .test.env
 
       - name: cat
-        run: cat.test.env
+        run: cat .test.env
 
       - name: start test
         run: yarn test
