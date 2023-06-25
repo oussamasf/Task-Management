@@ -4,7 +4,7 @@ import { Project, ProjectSchema } from '../../schemas/project.schema';
 import { Task, TaskSchema } from '../../schemas/task.schema';
 import { ProjectService } from './project.service';
 import { ProjectController } from './project.controller';
-import { RolesModule } from 'src/utils/config/roles/roles.module';
+import { RolesModule } from '../../utils/config/roles/roles.module';
 
 @Module({
   imports: [

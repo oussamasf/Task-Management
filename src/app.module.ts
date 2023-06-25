@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import {
+  DynamicModule,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
@@ -11,33 +16,41 @@ import { AuthModule } from './resources/auth/auth.module';
 import { UserModule } from './resources/user/user.module';
 import { AllExceptionsFilter } from './utils/filters/error-logging.filter';
 import { RolesModule } from './utils/config/roles/roles.module';
-import { ValidationPipe } from 'src/utils/pipes/validation.pipe';
+import { ValidationPipe } from './utils/pipes/validation.pipe';
+import { AppConfig } from './utils/interfaces/app-config.interface';
 
-const { MONGO_URI } = process.env;
-@Module({
-  imports: [
-    ProjectModule,
-    AuthModule,
-    UserModule,
-    ConfigModule.forRoot({ envFilePath: '.development.env', isGlobal: true }),
-    MongooseModule.forRoot(MONGO_URI),
-    RolesModule,
-  ],
-  controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: APP_FILTER,
-      useClass: AllExceptionsFilter,
-    },
-    {
-      provide: APP_PIPE,
-      useClass: ValidationPipe,
-    },
-  ],
-})
+@Module({})
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(MorganMiddleware).forRoutes('*');
+  }
+  static forRoot(config: AppConfig): DynamicModule {
+    const { envFilePath, dbUri } = config;
+    return {
+      module: AppModule,
+      imports: [
+        ProjectModule,
+        AuthModule,
+        UserModule,
+        ConfigModule.forRoot({
+          envFilePath,
+          isGlobal: true,
+        }),
+        MongooseModule.forRoot(dbUri),
+        RolesModule,
+      ],
+      providers: [
+        AppService,
+        {
+          provide: APP_FILTER,
+          useClass: AllExceptionsFilter,
+        },
+        {
+          provide: APP_PIPE,
+          useClass: ValidationPipe,
+        },
+      ],
+      controllers: [AppController],
+    };
   }
 }
