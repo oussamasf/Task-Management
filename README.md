@@ -95,3 +95,9 @@ To access restricted endpoints, make sure to include the appropriate role in the
 - `DELETE /project/:projectId/tasks/:taskId`: Delete a specific task. (Requires `admin` role)
 
 Please note that for routes requiring roles, the API will validate the user's role before allowing access to the resource. Unauthorized requests will receive a `403 Forbidden` response.
+
+### E2E Testing with Dynamic Modules
+
+In this project, I have leveraged dynamic modules in Nest to facilitate E2E testing. Dynamic modules allow us to dynamically configure and override dependencies for specific testing scenarios, providing more flexibility and isolation.
+
+The E2E tests are located in the test/e2e directory and are designed to simulate real-world scenarios by running tests against the actual API endpoints. To set up the E2E tests, we utilize dynamic modules to create a separate testing module that replaces certain components or services with mock implementations.
