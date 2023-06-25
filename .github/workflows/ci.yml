@@ -24,3 +24,10 @@ jobs:
 
       - name: Run ESLint
         run: yarn lint
+  test:
+    needs: eslint
+
+    permissions:
+      contents: read
+
+    uses: ./.github/workflows/e2e.yml
