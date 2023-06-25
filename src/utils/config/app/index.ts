@@ -1,16 +1,25 @@
 import * as dotenv from 'dotenv';
-dotenv.config();
+import * as fs from 'fs';
+import * as path from 'path';
 
-const { NODE_ENV, MONGO_URI } = process.env;
+const { NODE_ENV } = process.env;
+
+const filePath = NODE_ENV === 'test' ? '.test.env' : '.development.env';
+const envFile = path.resolve(__dirname, '../../../../../', filePath);
+const envConfig = dotenv.parse(fs.readFileSync(envFile));
+
+console.log(envConfig.MONGO_URI);
+
+const { MONGO_URI } = envConfig;
 
 export const config =
   NODE_ENV === 'test'
     ? {
-        envFilePath: '.test.env',
+        envFilePath: filePath,
         dbUri: MONGO_URI,
       }
     : {
-        envFilePath: '.development.env',
+        envFilePath: filePath,
         dbUri: MONGO_URI,
       };
 
