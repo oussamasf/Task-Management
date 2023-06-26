@@ -4,7 +4,7 @@ on:
   push:
     branches: ['**']
   pull_request:
-    branches: ['staging']
+    branches: ['staging', 'master', 'develop']
 
 jobs:
   eslint:
@@ -29,7 +29,7 @@ jobs:
     needs: eslint
 
     timeout-minutes: 12
-    if: github.event_name == 'pull_request' && github.base_ref == 'refs/heads/staging'
+    if: contains(fromJson('["refs/heads/develop", "refs/heads/staging"]'), github.ref)
     environment: test
     env:
       ENV_TEST_FILE: ${{ secrets.ENV_TEST_FILE }}

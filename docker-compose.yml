@@ -15,10 +15,26 @@ services:
     ports:
       - ${MONGO_PORT}:27017
     networks:
-      - local_network
+      - nesjs-network
 
+  app:
+    container_name: task-manager-api
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+    restart: always
+    env_file: .env
+    expose:
+      - ${PORT}
+    ports:
+      - ${PORT}:${PORT}
+    links: 
+      - mongo  
+    depends_on:
+      - mongo  
+    networks:
+      - nesjs-network
 
 networks:
-  local_network:
-    name: ${NETWORK_NAME}
-    driver: bridge
+    nesjs-network:
+      driver: bridge
