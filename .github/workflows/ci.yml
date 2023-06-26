@@ -29,6 +29,8 @@ jobs:
   test:
     needs: eslint
 
+    if: contains(fromJson('["refs/heads/staging"]'), github.ref)
+
     permissions:
       contents: read
 
