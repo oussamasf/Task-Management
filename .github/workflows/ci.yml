@@ -29,10 +29,10 @@ jobs:
     needs: eslint
 
     timeout-minutes: 12
-    if: contains(fromJson('["refs/heads/develop", "refs/heads/staging"]'), github.ref)
+    if: contains(fromJson('["refs/heads/staging"]'), github.ref)
     environment: test
     env:
-      ENV_TEST_FILE: ${{ secrets.ENV_TEST_FILE }}
+      ENV_TEST_FILE: ${{ vars.ENV_TEST_FILE }}
 
     container:
       image: 'node:18-alpine'
