@@ -23,8 +23,6 @@ jobs:
     services:
       mongo:
         image: 'mongo:6'
-        ports:
-          - 27014:27017
 
     steps:
       - name: checkout the code
