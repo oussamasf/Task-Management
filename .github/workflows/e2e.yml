@@ -1,0 +1,45 @@
+name: E2E Test
+on:
+  workflow_call:
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 12
+
+    environment: test
+
+    env:
+      ENV_TEST_FILE: ${{ vars.ENV_TEST_FILE }}
+
+    container:
+      image: 'node:18-alpine'
+      options: --user root
+
+    services:
+      mongo:
+        image: 'mongo:6'
+
+    steps:
+      - name: checkout the code
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v3
+        with:
+          cache: 'yarn'
+          cache-dependency-path: yarn.lock
+
+      - name: install dependencies
+        run: yarn install
+
+      - name: create file .test.env
+        run: echo "$ENV_TEST_FILE" > .test.env
+
+      - name: cat
+        run: cat .test.env
+
+      - name: start test
+        run: yarn test
