@@ -11,7 +11,6 @@ import { User, UserSchema } from '../../schemas/user.schema';
 
 export const config = {
   imports: [
-    ConfigModule.forRoot({ envFilePath: '.development.env' }),
     UserModule,
     JwtModule.register({
       global: true,
