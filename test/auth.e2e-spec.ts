@@ -7,7 +7,7 @@ import { User, UserDocument } from '../src/schemas/user.schema';
 import { AppModule } from '../src/app.module';
 import { config } from '../src/utils/config/app';
 
-describe('AppController (e2e)', () => {
+describe('Auth (e2e)', () => {
   let app: INestApplication;
   let userModel;
 
