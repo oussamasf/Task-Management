@@ -1,7 +1,7 @@
 module.exports = {
   testEnvironment: 'node',
 
-  testRegex: ['test/app.e2e-spec.ts'],
+  testRegex: ['test/.*/*.e2e-spec.ts'],
   testPathIgnorePatterns: ['/node_modules/'],
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
